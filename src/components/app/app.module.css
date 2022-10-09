@@ -1,0 +1,21 @@
+.main {
+  height: calc(100vh - 88px);
+  width: 100%;
+  max-width: 1240px;
+  margin: 0 auto;
+  display: flex;
+  gap: 40px;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background-element);
+  border: 1px dashed var(--colors-interface-accent);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--text-inactive-color);
+  border: 3px solid var(--text-inactive-color);
+}
