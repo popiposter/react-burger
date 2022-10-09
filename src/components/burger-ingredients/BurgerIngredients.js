@@ -5,25 +5,16 @@ import styles from './burger-ingredients.module.css';
 
 import { TYPE_INGREDIENTS } from '../../constants';
 import BurgerIngredientsByType from '../burger-ingredients-by-type';
-import Modal from '../modal';
-import IngredientDetails from '../ingredient-details';
 import { burger, ingredients } from '../../types';
+import IngredientDetailsModal from '../ingredient-details-modal';
 
 function BurgerIngredients({ ingredients, burger }) {
   const [currentTab, setCurrentTab] = React.useState('bun');
   const [isIngredientDetailsVisible, setIsIngredientDetailsVisible] = React.useState(false);
-  const [currentIngredientDetailsModal, setCurrentIngredientDetailsModal] = React.useState(null);
-
-  const IngredientDetailsModal = (ingredient) => {
-    return (
-      <Modal header="Детали ингредиента" onClose={() => setIsIngredientDetailsVisible(false)}>
-        <IngredientDetails ingredient={ingredient} onClose={() => setIsIngredientDetailsVisible(false)} />
-      </Modal>
-    );
-  };
+  const [selectedIngredient, setSelectedIngredient] = React.useState(null);
 
   const handleIngredientDetailsOpen = (ingredient) => {
-    setCurrentIngredientDetailsModal(IngredientDetailsModal(ingredient));
+    setSelectedIngredient(ingredient);
     setIsIngredientDetailsVisible(true);
   };
 
@@ -58,7 +49,11 @@ function BurgerIngredients({ ingredients, burger }) {
         />
       </div>
 
-      {isIngredientDetailsVisible && currentIngredientDetailsModal}
+      {isIngredientDetailsVisible &&
+        <IngredientDetailsModal
+          ingredient={selectedIngredient}
+          onClose={() => setIsIngredientDetailsVisible(false)}
+        />}
     </section>
   );
 }

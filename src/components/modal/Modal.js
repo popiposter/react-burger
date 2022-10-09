@@ -30,7 +30,8 @@ function Modal({ children, header, onClose }) {
   };
 
   return PortalReactDOM.createPortal(
-    <ModalOverlay onClick={handleOverlayClose}>
+    <div className={styles.modal__container}>
+      <ModalOverlay onClick={handleOverlayClose} />
       <div className={`${styles.modal} pt-10 pl-10 pr-10`}>
         <div className={styles.modal__header}>
           {header && <h2 className="text text_type_main-large">{header}</h2>}
@@ -44,7 +45,7 @@ function Modal({ children, header, onClose }) {
           {children}
         </section>
       </div>
-    </ModalOverlay>,
+    </div>,
     modalRoot
   );
 }

@@ -6,24 +6,13 @@ import { ReactComponent as CurrencyIconBig } from '../../images/currency-icon-bi
 import { getOrderSum } from '../../utils';
 
 import styles from './burger-constructor.module.css';
-import Modal from '../modal';
-import OrderDetails from '../order-details';
 import { burger } from '../../types';
+import OrderDetailsModal from '../order-details-modal';
 
 function BurgerConstructor({ burger }) {
   const [isOrderDetailsVisible, setIsOrderDetailsVisible] = React.useState(false);
-  const [currentOrderDetailsModal, setCurrentOrderDetailsModal] = React.useState(null);
-
-  const OrderDetailsModal = (order) => {
-    return (
-      <Modal onClose={() => setIsOrderDetailsVisible(false)}>
-        <OrderDetails order={order} onClose={() => setIsOrderDetailsVisible(false)} />
-      </Modal>
-    );
-  };
 
   const handleOrderDetailsModalOpen = () => {
-    setCurrentOrderDetailsModal(OrderDetailsModal('034536'));
     setIsOrderDetailsVisible(true);
   };
 
@@ -78,7 +67,11 @@ function BurgerConstructor({ burger }) {
           Оформить заказ
         </Button>
       </div>
-      {isOrderDetailsVisible && currentOrderDetailsModal}
+      {isOrderDetailsVisible &&
+        <OrderDetailsModal
+          onClose={() => setIsOrderDetailsVisible(false)}
+          order="034536"
+        />}
     </section>
   );
 }

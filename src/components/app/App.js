@@ -15,19 +15,22 @@ function App() {
     fetch(API_INGREDIENTS)
       .then((res) => res.json())
       .then((res) => {
-        setIngredients(res.data);
-        setBurger({
-          bun: res.data[0], ingredients: [
-            res.data[8],
-            res.data[3],
-            res.data[11],
-            res.data[10],
-            res.data[10],
-            res.data[12],
-            res.data[13],
-            res.data[14],
-          ]
-        })
+        if (res.success) {
+          setIngredients(res.data);
+          setBurger({
+            bun: res.data[0], ingredients: [
+              res.data[8],
+              res.data[3],
+              res.data[11],
+              res.data[10],
+              res.data[10],
+              res.data[12],
+              res.data[13],
+              res.data[14],
+            ]
+          });
+        }
+
       })
       .catch((err) => console.log(err));
   }, []);
