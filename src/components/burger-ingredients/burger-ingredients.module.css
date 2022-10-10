@@ -1,0 +1,18 @@
+.section {
+  display: flex;
+  flex-direction: column;
+  max-width: 600px;
+  height: calc(100vh - 128px);
+}
+
+.tabs {
+  display: flex;
+}
+
+.ingredients {
+  height: calc(100vh - 128px);
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
