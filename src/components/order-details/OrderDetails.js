@@ -1,12 +1,12 @@
 import React from 'react';
 
 import { ReactComponent as DoneIcon } from '../../images/done-icon.svg';
-import PropTypes from 'prop-types';
+import { order } from '../../utils/types';
 
 function OrderDetails({ order }) {
   return (
     <>
-      <p className="text text_type_digits-large mt-4 mb-8">{order}</p>
+      <p className="text text_type_digits-large mt-4 mb-8">{order.number}</p>
       <p className="text text_type_main-medium">идентификатор заказа</p>
       <DoneIcon className="mt-15 mb-15" />
       <p className="text text_type_main-default mb-2">Ваш заказ начали готовить</p>
@@ -18,7 +18,7 @@ function OrderDetails({ order }) {
 }
 
 OrderDetails.propTypes = {
-  order: PropTypes.string.isRequired
+  order: order.isRequired,
 }
 
 export default OrderDetails;

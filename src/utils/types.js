@@ -22,6 +22,11 @@ export const burger = PropTypes.shape({
   ingredients: ingredients.isRequired
 });
 
+export const order = PropTypes.shape({
+  number: PropTypes.number.isRequired,
+  name: PropTypes.string.isRequired,
+});
+
 export const ingredientType = PropTypes.shape({
   name: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
