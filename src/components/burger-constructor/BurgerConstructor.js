@@ -13,7 +13,7 @@ import stellarBurgersApi from '../../utils/StellarBurgersApi';
 function BurgerConstructor() {
   const [isOrderDetailsVisible, setIsOrderDetailsVisible] = React.useState(false);
   const { burger } = useBurgerConstructor();
-  const [order, setOrder] = React.useState({ name: '', number: 0 });
+  const [order, setOrder] = React.useState(null);
 
   const handleOrderClick = () => {
     stellarBurgersApi.order(getIngredientsIds(burger))
@@ -29,7 +29,7 @@ function BurgerConstructor() {
         <ConstructorElement
           type="top"
           isLocked
-          text={burger.bun.name + ' (верх)'}
+          text={`${burger.bun.name} (верх)`}
           thumbnail={burger.bun.image}
           price={burger.bun.price}
           extraClass="ml-8"
@@ -54,7 +54,7 @@ function BurgerConstructor() {
         <ConstructorElement
           type="bottom"
           isLocked
-          text={burger.bun.name + ' (низ)'}
+          text={`${burger.bun.name} (низ)`}
           thumbnail={burger.bun.image}
           price={burger.bun.price}
           extraClass="ml-8"
@@ -74,7 +74,7 @@ function BurgerConstructor() {
           Оформить заказ
         </Button>
       </div>
-      {isOrderDetailsVisible &&
+      {isOrderDetailsVisible && order &&
         <OrderDetailsModal
           onClose={() => setIsOrderDetailsVisible(false)}
           order={order}

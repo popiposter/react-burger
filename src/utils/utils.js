@@ -21,13 +21,14 @@ export const getOrderSum = (burger) => {
 export const getIngredientsIds = (burger) => {
   const ingredientsIds = [];
 
-  if (burger.bun) {
-    ingredientsIds.push(burger.bun._id);
-  }
-
   burger.ingredients.forEach((item) => {
     ingredientsIds.push(item._id);
   });
+
+  if (burger.bun) {
+    ingredientsIds.unshift(burger.bun._id);
+    ingredientsIds.push(burger.bun._id);
+  }
 
   return ingredientsIds;
 }
