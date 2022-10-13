@@ -2,7 +2,7 @@ import React from 'react';
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import styles from './burger-ingredient.module.css';
-import { ingredient } from '../../types';
+import { ingredient } from '../../utils/types';
 import PropTypes from 'prop-types';
 
 function BurgerIngredient({ item, cartCount, onIngredientClick }) {

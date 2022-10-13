@@ -3,12 +3,12 @@ import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import styles from './burger-ingredients.module.css';
 
-import { TYPE_INGREDIENTS } from '../../constants';
+import { TYPE_INGREDIENTS } from '../../utils/constants';
 import BurgerIngredientsByType from '../burger-ingredients-by-type';
-import { burger, ingredients } from '../../types';
+import { ingredients } from '../../utils/types';
 import IngredientDetailsModal from '../ingredient-details-modal';
 
-function BurgerIngredients({ ingredients, burger }) {
+function BurgerIngredients({ ingredients }) {
   const [currentTab, setCurrentTab] = React.useState('bun');
   const [isIngredientDetailsVisible, setIsIngredientDetailsVisible] = React.useState(false);
   const [selectedIngredient, setSelectedIngredient] = React.useState(null);
@@ -36,15 +36,15 @@ function BurgerIngredients({ ingredients, burger }) {
 
       <div className={styles.ingredients}>
         <BurgerIngredientsByType
-          ingredients={ingredients} burger={burger} type={TYPE_INGREDIENTS.bun}
+          ingredients={ingredients} type={TYPE_INGREDIENTS.bun}
           onIngredientClick={handleIngredientDetailsOpen}
         />
         < BurgerIngredientsByType
-          ingredients={ingredients} burger={burger} type={TYPE_INGREDIENTS.sauce}
+          ingredients={ingredients} type={TYPE_INGREDIENTS.sauce}
           onIngredientClick={handleIngredientDetailsOpen}
         />
         <BurgerIngredientsByType
-          ingredients={ingredients} burger={burger} type={TYPE_INGREDIENTS.main}
+          ingredients={ingredients} type={TYPE_INGREDIENTS.main}
           onIngredientClick={handleIngredientDetailsOpen}
         />
       </div>
@@ -60,7 +60,6 @@ function BurgerIngredients({ ingredients, burger }) {
 
 BurgerIngredients.propTypes = {
   ingredients: ingredients.isRequired,
-  burger: burger.isRequired,
 }
 
 export default BurgerIngredients;

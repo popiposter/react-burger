@@ -1,13 +1,16 @@
 import React from 'react';
 
-import { getItemCountInCart } from '../../utils';
+import { getItemCountInCart } from '../../utils/utils';
 
 import styles from './burger-ingredients-by-type.module.css';
 import BurgerIngredient from '../burger-ingredient';
-import { burger, ingredients, ingredientType } from '../../types';
+import { ingredients, ingredientType } from '../../utils/types';
 import PropTypes from 'prop-types';
+import { useBurgerConstructor } from '../../context/burger-constructor-context';
 
-function BurgerIngredientsByType({ ingredients, type, burger, onIngredientClick }) {
+function BurgerIngredientsByType({ ingredients, type, onIngredientClick }) {
+  const { burger } = useBurgerConstructor();
+
   return (
     <>
       <h2 className="text text_type_main-medium">{type.title}</h2>
@@ -27,7 +30,6 @@ function BurgerIngredientsByType({ ingredients, type, burger, onIngredientClick 
 BurgerIngredientsByType.propTypes = {
   ingredients: ingredients.isRequired,
   type: ingredientType.isRequired,
-  burger: burger.isRequired,
   onIngredientClick: PropTypes.func.isRequired
 }
 

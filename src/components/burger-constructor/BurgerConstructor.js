@@ -3,17 +3,24 @@ import React from 'react';
 import { ConstructorElement, Button, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 import { ReactComponent as CurrencyIconBig } from '../../images/currency-icon-big.svg';
 
-import { getOrderSum } from '../../utils';
+import { getIngredientsIds, getOrderSum } from '../../utils/utils';
 
 import styles from './burger-constructor.module.css';
-import { burger } from '../../types';
 import OrderDetailsModal from '../order-details-modal';
+import { useBurgerConstructor } from '../../context/burger-constructor-context';
+import stellarBurgersApi from '../../utils/StellarBurgersApi';
 
-function BurgerConstructor({ burger }) {
+function BurgerConstructor() {
   const [isOrderDetailsVisible, setIsOrderDetailsVisible] = React.useState(false);
+  const { burger } = useBurgerConstructor();
+  const [order, setOrder] = React.useState(null);
 
-  const handleOrderDetailsModalOpen = () => {
-    setIsOrderDetailsVisible(true);
+  const handleOrderClick = () => {
+    stellarBurgersApi.order(getIngredientsIds(burger))
+      .then((res) => {
+        setOrder({ name: res.name, number: res.order.number });
+        setIsOrderDetailsVisible(true);
+      }).catch((err) => console.log(err));
   };
 
   return (
@@ -22,7 +29,7 @@ function BurgerConstructor({ burger }) {
         <ConstructorElement
           type="top"
           isLocked
-          text={burger.bun.name}
+          text={`${burger.bun.name} (верх)`}
           thumbnail={burger.bun.image}
           price={burger.bun.price}
           extraClass="ml-8"
@@ -47,7 +54,7 @@ function BurgerConstructor({ burger }) {
         <ConstructorElement
           type="bottom"
           isLocked
-          text={burger.bun.name}
+          text={`${burger.bun.name} (низ)`}
           thumbnail={burger.bun.image}
           price={burger.bun.price}
           extraClass="ml-8"
@@ -62,22 +69,18 @@ function BurgerConstructor({ burger }) {
           size="large"
           htmlType="button"
           extraClass="ml-10"
-          onClick={handleOrderDetailsModalOpen}
+          onClick={handleOrderClick}
         >
           Оформить заказ
         </Button>
       </div>
-      {isOrderDetailsVisible &&
+      {isOrderDetailsVisible && order &&
         <OrderDetailsModal
           onClose={() => setIsOrderDetailsVisible(false)}
-          order="034536"
+          order={order}
         />}
     </section>
   );
 }
-
-BurgerConstructor.propTypes = {
-  burger: burger.isRequired,
-};
 
 export default BurgerConstructor;

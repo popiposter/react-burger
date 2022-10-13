@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './ingredient-details.module.css';
 
-import { ingredient } from '../../types';
+import { ingredient } from '../../utils/types';
 
 function IngredientDetails({ ingredient }) {
   return (

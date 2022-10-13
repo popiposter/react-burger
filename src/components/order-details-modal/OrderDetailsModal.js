@@ -2,6 +2,7 @@ import React from 'react';
 import Modal from '../modal';
 import OrderDetails from '../order-details';
 import PropTypes from 'prop-types';
+import { order } from '../../utils/types';
 
 const OrderDetailsModal = ({ order, onClose }) => {
   return (
@@ -12,7 +13,7 @@ const OrderDetailsModal = ({ order, onClose }) => {
 };
 
 OrderDetailsModal.propTypes = {
-  order: PropTypes.string.isRequired,
+  order: order.isRequired,
   onClose: PropTypes.func.isRequired,
 }
 

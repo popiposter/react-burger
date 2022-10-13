@@ -2,7 +2,7 @@ import React from 'react';
 import Modal from '../modal';
 import IngredientDetails from '../ingredient-details';
 import PropTypes from 'prop-types';
-import { ingredient } from '../../types';
+import { ingredient } from '../../utils/types';
 
 const IngredientDetailsModal = ({ ingredient, onClose }) => {
   return (
