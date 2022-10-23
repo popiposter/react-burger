@@ -1,0 +1,41 @@
+.section {
+  width: 600px;
+  height: calc(100vh - 188px);
+}
+
+.list {
+  height: calc(100vh - 188px - 378px);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin: 0;
+  padding-left: 0;
+  list-style: none;
+  overflow: auto;
+}
+
+.dropTarget {
+  min-height: calc(100vh - 188px - 178px);
+  transition: all .2s ease-in;
+  padding-top: 8px;
+}
+
+.dropTargetHover {
+  box-shadow: 0 0 8px 4px rgb(51 51 255 / 25%), 0 0 4px 4px rgb(51 51 255 / 25%);
+  border-radius: 5px;
+}
+
+.bun {
+  margin-left: 32px;
+}
+
+.order {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-bottom: 52px;
+}
+
+.currency {
+  width: 36px;
+}

@@ -1,19 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './components/app';
+import App from './app';
 import reportWebVitals from './reportWebVitals';
-import { BurgerConstructorProvider } from "./context/burger-constructor-context";
-import AppHeader from "./components/app-header";
+import AppHeader from './features/app-header';
+import { store } from './app/store';
+import { Provider } from 'react-redux';
 
-const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
-);
+const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
+
 root.render(
   <React.StrictMode>
-    <AppHeader />
-    <BurgerConstructorProvider>
+    <Provider store={store}>
+      <AppHeader />
       <App />
-    </BurgerConstructorProvider>
+    </Provider>
   </React.StrictMode>
 );
 
