@@ -1,8 +1,8 @@
 import React from 'react';
-import Modal from '../../../common/modal';
-import IngredientDetails from '../../ingredient-details';
+import Modal from '../../ui/modal';
+import IngredientDetails from '../ingredient-details';
 import PropTypes from 'prop-types';
-import { ingredient } from '../../../constants/types';
+import { ingredient } from '../../constants/types';
 
 const IngredientDetailsModal = ({ ingredient, onClose }) => {
   return (

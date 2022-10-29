@@ -1,14 +1,14 @@
 import React from 'react';
 import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import { ingredient } from '../../../constants/types';
+import { ingredient } from '../../constants/types';
 import PropTypes from 'prop-types';
 import { useDrag, useDrop } from 'react-dnd';
 
 import styles from './burger-constructor-element-draggable.module.css';
 import { useDispatch } from 'react-redux';
-import { moveIngredient } from '../burgerConstructorSlice';
+import { moveIngredient } from '../../services/burgerConstructorSlice';
 
-function BurgerConstructorElementDraggable({ item, onDeleteClick }) {
+function BurgerConstructorElementDraggable({ item, index, onDeleteClick }) {
   const ref = React.useRef(null);
   const dispatch = useDispatch();
 
@@ -17,18 +17,18 @@ function BurgerConstructorElementDraggable({ item, onDeleteClick }) {
     collect: (monitor) => ({
       isHover: monitor.isOver(),
     }),
-    drop(droppedItem) {
-      if (droppedItem.id === item.id) {
+    drop(item) {
+      if (item.index === index) {
         return;
       }
 
-      dispatch(moveIngredient({ draggedItem: droppedItem, targetItem: item }));
+      dispatch(moveIngredient({ fromIndex: item.index, toIndex: index }));
     },
   });
 
   const [{ opacity }, drag] = useDrag({
     type: 'constructorIngredient',
-    item: item,
+    item: { index },
     collect: (monitor) => ({
       opacity: monitor.isDragging() ? 0.5 : 1,
     }),
@@ -52,6 +52,7 @@ function BurgerConstructorElementDraggable({ item, onDeleteClick }) {
 
 BurgerConstructorElementDraggable.propTypes = {
   item: ingredient.isRequired,
+  index: PropTypes.number.isRequired,
   onDeleteClick: PropTypes.func.isRequired,
 };
 

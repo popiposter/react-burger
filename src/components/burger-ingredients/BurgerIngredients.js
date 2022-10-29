@@ -1,22 +1,24 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import styles from './burger-ingredients.module.css';
 
 import { TYPE_INGREDIENTS } from '../../constants/constants';
-import BurgerIngredientsByType from './burger-ingredients-by-type';
-import IngredientDetailsModal from '../modals/ingredient-details-modal';
+import BurgerIngredientsByType from '../burger-ingredients-by-type';
+import IngredientDetailsModal from '../ingredient-details-modal';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   fetchIngredients,
+  selectBuns,
   selectIngredient,
-  selectIngredientsByType,
   selectIngredientsError,
   selectIngredientsStatus,
+  selectMains,
+  selectSauces,
   selectSelectedIngredient,
-} from './burgerIngredientsSlice';
-import Spinner from '../../common/spinner';
-import CenteredBox from '../../common/centered-box';
+} from '../../services/burgerIngredientsSlice';
+import Spinner from '../../ui/spinner';
+import CenteredBox from '../../ui/centered-box';
 import { InView } from 'react-intersection-observer';
 
 function BurgerIngredients() {
@@ -40,17 +42,14 @@ function BurgerIngredients() {
   const ingredientsStatus = useSelector(selectIngredientsStatus);
   const ingredientsError = useSelector(selectIngredientsError);
 
-  const buns = useSelector(selectIngredientsByType(TYPE_INGREDIENTS.bun.name));
-  const sauces = useSelector(selectIngredientsByType(TYPE_INGREDIENTS.sauce.name));
-  const mains = useSelector(selectIngredientsByType(TYPE_INGREDIENTS.main.name));
+  const buns = useSelector(selectBuns);
+  const sauces = useSelector(selectSauces);
+  const mains = useSelector(selectMains);
 
-  const handleIngredientDetailsOpen = (ingredient) => {
-    dispatch(selectIngredient(ingredient));
-  };
+  const handleIngredientDetailsOpen = useCallback((ingredient) => dispatch(selectIngredient(ingredient)), [dispatch]);
+  const handleIngredientDetailsClose = useCallback(() => dispatch(selectIngredient(null)), [dispatch]);
 
-  const handleIngredientDetailsClose = () => {
-    dispatch(selectIngredient(null));
-  };
+  const handleTabClick = useCallback(() => {}, []);
 
   useEffect(() => {
     if (ingredientsStatus === 'idle') {
@@ -71,13 +70,13 @@ function BurgerIngredients() {
     ) : ingredientsStatus === 'succeeded' ? (
       <>
         <div className={`${styles.tabs} pb-10`}>
-          <Tab active={currentTab === TYPE_INGREDIENTS.bun.name} value="bun" onClick={() => {}}>
+          <Tab active={currentTab === TYPE_INGREDIENTS.bun.name} value="bun" onClick={handleTabClick}>
             {TYPE_INGREDIENTS.bun.title}
           </Tab>
-          <Tab active={currentTab === TYPE_INGREDIENTS.sauce.name} value="sauce" onClick={() => {}}>
+          <Tab active={currentTab === TYPE_INGREDIENTS.sauce.name} value="sauce" onClick={handleTabClick}>
             {TYPE_INGREDIENTS.sauce.title}
           </Tab>
-          <Tab active={currentTab === TYPE_INGREDIENTS.main.name} value="main" onClick={() => {}}>
+          <Tab active={currentTab === TYPE_INGREDIENTS.main.name} value="main" onClick={handleTabClick}>
             {TYPE_INGREDIENTS.main.title}
           </Tab>
         </div>

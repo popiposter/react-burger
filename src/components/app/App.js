@@ -1,6 +1,6 @@
 import React from 'react';
-import BurgerConstructor from '../features/burger-constructor';
-import BurgerIngredients from '../features/burger-ingredients';
+import BurgerConstructor from '../burger-constructor';
+import BurgerIngredients from '../burger-ingredients';
 
 import styles from './app.module.css';
 import { DndProvider } from 'react-dnd';

@@ -2,11 +2,11 @@ import React from 'react';
 
 import { ReactComponent as DoneIcon } from '../../images/done-icon.svg';
 import { useSelector } from 'react-redux';
-import { selectOrder, selectOrderError, selectOrderStatus } from '../burger-constructor/burgerConstructorSlice';
-import Spinner from '../../common/spinner';
-import CenteredBox from '../../common/centered-box';
+import Spinner from '../../ui/spinner';
+import CenteredBox from '../../ui/centered-box';
 
 import styles from './order-details.module.css';
+import { selectOrder, selectOrderError, selectOrderStatus } from '../../services/orderSlice';
 
 function OrderDetails() {
   const order = useSelector(selectOrder);

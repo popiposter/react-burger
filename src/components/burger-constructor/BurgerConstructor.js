@@ -4,20 +4,21 @@ import { Button } from '@ya.praktikum/react-developer-burger-ui-components';
 import { ReactComponent as CurrencyIconBig } from '../../images/currency-icon-big.svg';
 
 import styles from './burger-constructor.module.css';
-import OrderDetailsModal from '../modals/order-details-modal';
+import OrderDetailsModal from '../order-details-modal';
 import { useDrop } from 'react-dnd';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   addIngredient,
-  fetchOrder,
   removeIngredient,
+  resetBurger,
   selectBun,
   selectIngredients,
   selectIngredientsIds,
   selectTotalPrice,
-} from './burgerConstructorSlice';
-import BurgerConstructorElementDraggable from './burger-constructor-element-draggable';
-import BurgerConstructorElement from './burger-constructor-element';
+} from '../../services/burgerConstructorSlice';
+import BurgerConstructorElementDraggable from '../burger-constructor-element-draggable';
+import BurgerConstructorElement from '../burger-constructor-element';
+import { postOrder, resetOrder, selectOrderStatus } from '../../services/orderSlice';
 
 function BurgerConstructor() {
   const dispatch = useDispatch();
@@ -28,11 +29,22 @@ function BurgerConstructor() {
 
   const totalPride = useSelector(selectTotalPrice);
 
+  const orderStatus = useSelector(selectOrderStatus);
+
   const [isOrderDetailsVisible, setIsOrderDetailsVisible] = React.useState(false);
 
   const handleOrderClick = () => {
-    dispatch(fetchOrder(burgerIngredientsIds));
+    dispatch(postOrder(burgerIngredientsIds));
     setIsOrderDetailsVisible(true);
+  };
+
+  const handleOrderDetailsClose = () => {
+    setIsOrderDetailsVisible(false);
+
+    if (orderStatus === 'succeeded') {
+      dispatch(resetBurger());
+      dispatch(resetOrder());
+    }
   };
 
   const handleIngredientDelete = (ingredient) => {
@@ -62,9 +74,10 @@ function BurgerConstructor() {
         {bun && <BurgerConstructorElement item={bun} type="top" />}
 
         <ul className={`${styles.list} pt-4 pb-4`}>
-          {ingredients.map((item) => (
+          {ingredients.map((item, index) => (
             <BurgerConstructorElementDraggable
               key={item.id}
+              index={index}
               item={item}
               onDeleteClick={() => handleIngredientDelete(item)}
             />
@@ -83,12 +96,12 @@ function BurgerConstructor() {
           htmlType="button"
           extraClass="ml-10"
           onClick={handleOrderClick}
-          disabled={burgerIngredientsIds.length === 0}
+          disabled={!bun || ingredients.length === 0}
         >
           Оформить заказ
         </Button>
       </div>
-      {isOrderDetailsVisible && <OrderDetailsModal onClose={() => setIsOrderDetailsVisible(false)} />}
+      {isOrderDetailsVisible && <OrderDetailsModal onClose={handleOrderDetailsClose} />}
     </section>
   );
 }

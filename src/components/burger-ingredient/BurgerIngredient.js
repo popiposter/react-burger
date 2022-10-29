@@ -5,10 +5,8 @@ import styles from './burger-ingredient.module.css';
 import { ingredient } from '../../constants/types';
 import PropTypes from 'prop-types';
 import { useDrag } from 'react-dnd';
-import { useSelector } from 'react-redux';
-import { selectIngredientCountInBurger } from '../burger-constructor/burgerConstructorSlice';
 
-function BurgerIngredient({ item, onIngredientClick }) {
+function BurgerIngredient({ item, count, onIngredientClick }) {
   const handleClick = () => {
     onIngredientClick(item);
   };
@@ -21,11 +19,9 @@ function BurgerIngredient({ item, onIngredientClick }) {
     }),
   });
 
-  const qtyInBurger = useSelector(selectIngredientCountInBurger(item));
-
   return (
     <li className={styles.item} onClick={handleClick} ref={ref} style={{ opacity }}>
-      {qtyInBurger > 0 && <Counter count={qtyInBurger} size="default" />}
+      {count && <Counter count={count} size="default" />}
 
       <img src={item.image} alt={item.name} />
 
@@ -41,6 +37,7 @@ function BurgerIngredient({ item, onIngredientClick }) {
 
 BurgerIngredient.propTypes = {
   item: ingredient.isRequired,
+  count: PropTypes.number,
   onIngredientClick: PropTypes.func.isRequired,
 };
 
