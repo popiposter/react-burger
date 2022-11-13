@@ -1,12 +1,11 @@
 import { createAsyncThunk, createSlice, createSelector } from '@reduxjs/toolkit';
 import StellarBurgersApi from './StellarBurgersApi';
-import { TYPE_INGREDIENTS } from '../constants/constants';
+import { TYPE_INGREDIENTS } from '../utils/constants';
 
 const initialState = {
   ingredients: [],
   status: 'idle',
   error: null,
-  selectedIngredient: null,
 };
 
 export const fetchIngredients = createAsyncThunk('burger-ingredients/fetchIngredients', async () => {
@@ -17,11 +16,7 @@ export const fetchIngredients = createAsyncThunk('burger-ingredients/fetchIngred
 export const burgerIngredientsSlice = createSlice({
   name: 'ingredients',
   initialState,
-  reducers: {
-    selectIngredient: (state, action) => {
-      state.selectedIngredient = action.payload;
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(fetchIngredients.pending, (state) => {
@@ -46,6 +41,10 @@ export const selectIngredients = (state) => state.ingredients.ingredients;
 export const selectIngredientsStatus = (state) => state.ingredients.status;
 export const selectIngredientsError = (state) => state.ingredients.error;
 
+export const selectIngredientById = (id) => (state) => {
+  return state.ingredients.ingredients.find((ingredient) => ingredient._id === id);
+};
+
 export const selectBuns = createSelector(selectIngredients, (ingredients) =>
   ingredients.filter((ingredient) => ingredient.type === TYPE_INGREDIENTS.bun.name)
 );
@@ -57,5 +56,3 @@ export const selectSauces = createSelector(selectIngredients, (ingredients) =>
 export const selectMains = createSelector(selectIngredients, (ingredients) =>
   ingredients.filter((ingredient) => ingredient.type === TYPE_INGREDIENTS.main.name)
 );
-
-export const selectSelectedIngredient = (state) => state.ingredients.selectedIngredient;

@@ -1,6 +1,6 @@
 import React from 'react';
 import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components';
-import { ingredient } from '../../constants/types';
+import { ingredient } from '../../utils/types';
 import PropTypes from 'prop-types';
 import { useDrag, useDrop } from 'react-dnd';
 
