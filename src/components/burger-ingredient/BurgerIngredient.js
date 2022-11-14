@@ -2,15 +2,11 @@ import React from 'react';
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import styles from './burger-ingredient.module.css';
-import { ingredient } from '../../constants/types';
+import { ingredient } from '../../utils/types';
 import PropTypes from 'prop-types';
 import { useDrag } from 'react-dnd';
 
-function BurgerIngredient({ item, count, onIngredientClick }) {
-  const handleClick = () => {
-    onIngredientClick(item);
-  };
-
+function BurgerIngredient({ item, count }) {
   const [{ opacity }, ref] = useDrag({
     type: 'ingredient',
     item: item,
@@ -20,7 +16,7 @@ function BurgerIngredient({ item, count, onIngredientClick }) {
   });
 
   return (
-    <li className={styles.item} onClick={handleClick} ref={ref} style={{ opacity }}>
+    <li className={styles.item} ref={ref} style={{ opacity }}>
       {count && <Counter count={count} size="default" />}
 
       <img src={item.image} alt={item.name} />
@@ -38,7 +34,6 @@ function BurgerIngredient({ item, count, onIngredientClick }) {
 BurgerIngredient.propTypes = {
   item: ingredient.isRequired,
   count: PropTypes.number,
-  onIngredientClick: PropTypes.func.isRequired,
 };
 
 export default BurgerIngredient;

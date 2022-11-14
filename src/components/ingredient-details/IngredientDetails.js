@@ -1,9 +1,24 @@
 import React from 'react';
 import styles from './ingredient-details.module.css';
 
-import { ingredient } from '../../constants/types';
+import { useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { selectIngredientById } from '../../services/burgerIngredientsSlice';
+import CenteredBox from '../../ui/centered-box';
+import Spinner from '../../ui/spinner';
 
-function IngredientDetails({ ingredient }) {
+function IngredientDetails() {
+  const { id } = useParams();
+  const ingredient = useSelector(selectIngredientById(id));
+
+  if (!ingredient) {
+    return (
+      <CenteredBox>
+        <Spinner />
+      </CenteredBox>
+    );
+  }
+
   return (
     <>
       <img className={styles.image} src={ingredient.image_large} alt={ingredient.name} />
@@ -34,9 +49,5 @@ function IngredientDetails({ ingredient }) {
     </>
   );
 }
-
-IngredientDetails.propTypes = {
-  ingredient: ingredient.isRequired,
-};
 
 export default IngredientDetails;

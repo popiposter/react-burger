@@ -1,29 +1,23 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback } from 'react';
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import styles from './burger-ingredients.module.css';
 
-import { TYPE_INGREDIENTS } from '../../constants/constants';
+import { TYPE_INGREDIENTS } from '../../utils/constants';
 import BurgerIngredientsByType from '../burger-ingredients-by-type';
-import IngredientDetailsModal from '../ingredient-details-modal';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import {
-  fetchIngredients,
   selectBuns,
-  selectIngredient,
   selectIngredientsError,
   selectIngredientsStatus,
   selectMains,
   selectSauces,
-  selectSelectedIngredient,
 } from '../../services/burgerIngredientsSlice';
 import Spinner from '../../ui/spinner';
 import CenteredBox from '../../ui/centered-box';
 import { InView } from 'react-intersection-observer';
 
 function BurgerIngredients() {
-  const selectedIngredient = useSelector(selectSelectedIngredient);
-
   const [isBunsInView, setIsBunsInView] = React.useState(false);
   const [isSaucesInView, setIsSaucesInView] = React.useState(false);
   const [isMainsInView, setIsMainsInView] = React.useState(false);
@@ -38,7 +32,6 @@ function BurgerIngredients() {
     }
   }, [isBunsInView, isSaucesInView, isMainsInView]);
 
-  const dispatch = useDispatch();
   const ingredientsStatus = useSelector(selectIngredientsStatus);
   const ingredientsError = useSelector(selectIngredientsError);
 
@@ -46,16 +39,7 @@ function BurgerIngredients() {
   const sauces = useSelector(selectSauces);
   const mains = useSelector(selectMains);
 
-  const handleIngredientDetailsOpen = useCallback((ingredient) => dispatch(selectIngredient(ingredient)), [dispatch]);
-  const handleIngredientDetailsClose = useCallback(() => dispatch(selectIngredient(null)), [dispatch]);
-
   const handleTabClick = useCallback(() => {}, []);
-
-  useEffect(() => {
-    if (ingredientsStatus === 'idle') {
-      dispatch(fetchIngredients());
-    }
-  }, [ingredientsStatus, dispatch]);
 
   const content =
     ingredientsStatus === 'loading' ? (
@@ -83,25 +67,13 @@ function BurgerIngredients() {
 
         <div className={styles.ingredients}>
           <InView as="div" onChange={(inView) => setIsBunsInView(inView)}>
-            <BurgerIngredientsByType
-              ingredients={buns}
-              type={TYPE_INGREDIENTS.bun}
-              onIngredientClick={handleIngredientDetailsOpen}
-            />
+            <BurgerIngredientsByType ingredients={buns} type={TYPE_INGREDIENTS.bun} />
           </InView>
           <InView as="div" onChange={(inView) => setIsSaucesInView(inView)}>
-            <BurgerIngredientsByType
-              ingredients={sauces}
-              type={TYPE_INGREDIENTS.sauce}
-              onIngredientClick={handleIngredientDetailsOpen}
-            />
+            <BurgerIngredientsByType ingredients={sauces} type={TYPE_INGREDIENTS.sauce} />
           </InView>
           <InView as="div" onChange={(inView) => setIsMainsInView(inView)}>
-            <BurgerIngredientsByType
-              ingredients={mains}
-              type={TYPE_INGREDIENTS.main}
-              onIngredientClick={handleIngredientDetailsOpen}
-            />
+            <BurgerIngredientsByType ingredients={mains} type={TYPE_INGREDIENTS.main} />
           </InView>
         </div>
       </>
@@ -111,9 +83,6 @@ function BurgerIngredients() {
     <section className={styles.section}>
       <h1 className="text text_type_main-large pt-10 pb-5">Соберите бургер</h1>
       {content}
-      {selectedIngredient && (
-        <IngredientDetailsModal ingredient={selectedIngredient} onClose={handleIngredientDetailsClose} />
-      )}
     </section>
   );
 }

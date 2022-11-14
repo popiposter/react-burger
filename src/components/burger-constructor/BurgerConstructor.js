@@ -19,9 +19,14 @@ import {
 import BurgerConstructorElementDraggable from '../burger-constructor-element-draggable';
 import BurgerConstructorElement from '../burger-constructor-element';
 import { postOrder, resetOrder, selectOrderStatus } from '../../services/orderSlice';
+import { selectUser } from '../../services/authSlice';
+import { useHistory } from 'react-router-dom';
 
 function BurgerConstructor() {
   const dispatch = useDispatch();
+
+  const user = useSelector(selectUser);
+  const history = useHistory();
 
   const bun = useSelector(selectBun);
   const ingredients = useSelector(selectIngredients);
@@ -34,8 +39,12 @@ function BurgerConstructor() {
   const [isOrderDetailsVisible, setIsOrderDetailsVisible] = React.useState(false);
 
   const handleOrderClick = () => {
-    dispatch(postOrder(burgerIngredientsIds));
-    setIsOrderDetailsVisible(true);
+    if (!user) {
+      history.push('/login');
+    } else {
+      dispatch(postOrder(burgerIngredientsIds));
+      setIsOrderDetailsVisible(true);
+    }
   };
 
   const handleOrderDetailsClose = () => {

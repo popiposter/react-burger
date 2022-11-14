@@ -6,3 +6,9 @@
   list-style: none;
   margin: 0;
 }
+
+.link {
+  text-decoration: none;
+  color: unset;
+  width: 272px;
+}

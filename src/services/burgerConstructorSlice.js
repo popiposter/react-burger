@@ -1,5 +1,5 @@
 import { createSlice, nanoid, createSelector } from '@reduxjs/toolkit';
-import { TYPE_INGREDIENTS } from '../constants/constants';
+import { TYPE_INGREDIENTS } from '../utils/constants';
 
 const initialState = {
   burger: {
