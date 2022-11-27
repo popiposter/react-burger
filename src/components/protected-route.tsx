@@ -4,7 +4,6 @@ import { useSelector } from 'react-redux';
 import { selectUser, selectUserRequestStatus } from '../services/authSlice';
 import Spinner from '../ui/spinner';
 import Container from '../ui/container';
-import PropTypes from 'prop-types';
 import { IPropsWithChildren } from '../utils/types';
 
 interface IProtectedRouteProps extends IPropsWithChildren {
@@ -37,8 +36,4 @@ export const ProtectedRoute: FC<IProtectedRouteProps> = ({ children, ...rest }) 
       }}
     />
   );
-};
-
-ProtectedRoute.propTypes = {
-  children: PropTypes.node.isRequired,
 };
