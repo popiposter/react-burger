@@ -2,6 +2,7 @@ import { Middleware } from 'redux';
 import { ActionCreatorWithoutPayload, ActionCreatorWithPayload } from '@reduxjs/toolkit';
 import { clearOrders } from '../ordersFeedSlice';
 import { TOrderResponse } from '../../utils/types';
+import { WebsocketCloseCode } from '../../utils/constants';
 
 export type TwsActionTypes = {
   connect: ActionCreatorWithPayload<string>;
@@ -45,7 +46,7 @@ export const createSocketMiddleware = (wsActions: TwsActionTypes): Middleware =>
         };
 
         socket.onclose = (event) => {
-          if (event.code !== 1000 && event.code !== 1005) {
+          if (event.code !== WebsocketCloseCode.CLOSE_NORMAL && event.code !== WebsocketCloseCode.CLOSE_NO_STATUS) {
             dispatch(wsError(event.code.toString()));
           }
         };

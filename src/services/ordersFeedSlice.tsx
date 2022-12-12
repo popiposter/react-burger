@@ -38,8 +38,7 @@ export const ordersFeedSlice = createSlice({
     },
     wsMessage: (state, action: PayloadAction<TOrderResponse>) => {
       const { orders, total, totalToday } = action.payload;
-      // state.orders = orders.sort((a, b) => new Date(b.createdAt).valueOf() - new Date(a.createdAt).valueOf());
-      state.orders = orders;
+      state.orders = orders.sort((a, b) => new Date(b.createdAt).valueOf() - new Date(a.createdAt).valueOf());
       state.total = total;
       state.totalToday = totalToday;
     },

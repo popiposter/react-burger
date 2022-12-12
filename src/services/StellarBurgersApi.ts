@@ -36,7 +36,7 @@ class StellarBurgersApi {
   }
 
   getPrivateOrdersFeed() {
-    return this._privateOrdersFeedAddress;
+    return this._privateOrdersFeedAddress + getCookie('accessToken');
   }
 
   _defaultFetchOptions(withAuth = false): RequestInit {

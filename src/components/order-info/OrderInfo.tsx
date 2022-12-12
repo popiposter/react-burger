@@ -1,5 +1,5 @@
 import React, { FC, useEffect } from 'react';
-import styles from './order.module.css';
+import styles from './order-info.module.css';
 import { useLocation, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { getIngredientsCountByIds, getOrder, selectOrderDetails, selectOrderStatus } from '../../services/orderSlice';
@@ -15,7 +15,7 @@ interface IOrderParams {
   id: string;
 }
 
-const Order: FC = () => {
+const OrderInfo: FC = () => {
   const { id } = useParams<IOrderParams>();
   const location = useLocation<TLocationState>();
   let background = location.state?.background;
@@ -82,4 +82,4 @@ const Order: FC = () => {
   );
 };
 
-export default Order;
+export default OrderInfo;

@@ -6,15 +6,12 @@ import Profile from '../../components/profile';
 import { logout } from '../../services/authSlice';
 import { useAppDispatch } from '../../services/store';
 import OrdersFeed from '../../components/orders-feed';
-import { getCookie } from 'typescript-cookie';
 import stellarBurgersApi from '../../services/StellarBurgersApi';
 
 function ProfilePage() {
   const { path, url } = useRouteMatch();
   const dispatch = useAppDispatch();
   const history = useHistory();
-
-  const accessToken = getCookie('accessToken');
 
   const handleLogout = () => {
     dispatch(logout());
@@ -76,7 +73,7 @@ function ProfilePage() {
         </Route>
 
         <Route path={`${path}/orders`} exact>
-          <OrdersFeed url={`${stellarBurgersApi.getPrivateOrdersFeed()}${accessToken}`} />
+          <OrdersFeed url={stellarBurgersApi.getPrivateOrdersFeed()} />
         </Route>
       </section>
     </main>

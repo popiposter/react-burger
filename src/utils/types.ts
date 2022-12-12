@@ -114,10 +114,6 @@ export enum WebsocketStatus {
   OFFLINE = 'OFFLINE',
 }
 
-export interface StringDictionary {
-  [index: string]: string;
-}
-
 export type TLocationState = {
   background: Location;
 };

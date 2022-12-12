@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import Modal from '../../ui/modal';
-import Order from '../order';
+import OrderInfo from '../order-info';
 import { useParams } from 'react-router-dom';
 
 interface IOrderModalProps {
@@ -11,14 +11,14 @@ interface IOrderParams {
   id: string;
 }
 
-const OrderModal: FC<IOrderModalProps> = ({ onClose }) => {
+const OrderInfoModal: FC<IOrderModalProps> = ({ onClose }) => {
   const { id } = useParams<IOrderParams>();
 
   return (
     <Modal onClose={onClose} header={`#${id}`} headerClassName="text text_type_digits-default">
-      <Order />
+      <OrderInfo />
     </Modal>
   );
 };
 
-export default OrderModal;
+export default OrderInfoModal;
