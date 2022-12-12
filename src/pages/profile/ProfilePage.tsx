@@ -5,11 +5,16 @@ import styles from './profile.module.css';
 import Profile from '../../components/profile';
 import { logout } from '../../services/authSlice';
 import { useAppDispatch } from '../../services/store';
+import OrdersFeed from '../../components/orders-feed';
+import { getCookie } from 'typescript-cookie';
+import stellarBurgersApi from '../../services/StellarBurgersApi';
 
 function ProfilePage() {
   const { path, url } = useRouteMatch();
   const dispatch = useAppDispatch();
   const history = useHistory();
+
+  const accessToken = getCookie('accessToken');
 
   const handleLogout = () => {
     dispatch(logout());
@@ -52,19 +57,26 @@ function ProfilePage() {
             </button>
           </li>
         </ul>
+
         <Route path={path} exact>
           <p className="text text_type_main-default text_color_inactive mt-20">
             В этом разделе вы можете изменить свои персональные данные
           </p>
         </Route>
+
+        <Route path={`${path}/orders`} exact>
+          <p className="text text_type_main-default text_color_inactive mt-20">
+            В этом разделе вы можете просмотреть свою историю заказов
+          </p>
+        </Route>
       </nav>
-      <section>
+      <section className={styles.content}>
         <Route path={path} exact>
           <Profile />
         </Route>
 
         <Route path={`${path}/orders`} exact>
-          <h1 className="text text_type_main-default">История заказов</h1>
+          <OrdersFeed url={`${stellarBurgersApi.getPrivateOrdersFeed()}${accessToken}`} />
         </Route>
       </section>
     </main>

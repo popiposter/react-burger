@@ -1,12 +1,12 @@
 import { createSlice, nanoid, createSelector, PayloadAction } from '@reduxjs/toolkit';
 import { TYPE_INGREDIENTS } from '../utils/constants';
 import { RootState } from './store';
-import { ICounters, TIngredient } from '../utils/types';
+import { ICounters, TConstructorIngredient } from '../utils/types';
 
 interface IBurgerConstructorState {
   burger: {
-    bun: TIngredient | null;
-    ingredients: Array<TIngredient>;
+    bun: TConstructorIngredient | null;
+    ingredients: Array<TConstructorIngredient>;
   };
 }
 
@@ -22,7 +22,7 @@ const burgerConstructorSlice = createSlice({
   initialState,
   reducers: {
     addIngredient: {
-      reducer(state, action: PayloadAction<TIngredient>) {
+      reducer(state, action: PayloadAction<TConstructorIngredient>) {
         if (action.payload.type === TYPE_INGREDIENTS.bun.name) {
           state.burger.bun = action.payload;
         } else {
@@ -39,7 +39,7 @@ const burgerConstructorSlice = createSlice({
         };
       },
     },
-    removeIngredient: (state, action: PayloadAction<TIngredient>) => {
+    removeIngredient: (state, action: PayloadAction<TConstructorIngredient>) => {
       if (action.payload.type === TYPE_INGREDIENTS.bun.name) {
         state.burger.bun = null;
       } else {

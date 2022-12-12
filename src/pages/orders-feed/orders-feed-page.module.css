@@ -1,0 +1,14 @@
+.ordersFeed {
+  height: calc(100vh - 112px);
+  width: 100%;
+  max-width: 1240px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.content {
+  display: flex;
+  gap: 56px;
+  height: calc(100vh - 188px);
+}

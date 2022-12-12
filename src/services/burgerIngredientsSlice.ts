@@ -51,14 +51,42 @@ export const selectIngredientById = (id: string) => (state: RootState) => {
   return state.ingredients.ingredients.find((ingredient) => ingredient._id === id);
 };
 
-export const selectBuns = createSelector(selectIngredients, (ingredients) =>
-  ingredients.filter((ingredient) => ingredient.type === TYPE_INGREDIENTS.bun.name)
-);
+const makeSelectIngredientsByType = (type: string) =>
+  createSelector(selectIngredients, (ingredients) => {
+    return ingredients.filter((ingredient) => ingredient.type === type);
+  });
 
-export const selectSauces = createSelector(selectIngredients, (ingredients) =>
-  ingredients.filter((ingredient) => ingredient.type === TYPE_INGREDIENTS.sauce.name)
-);
+export const selectBuns = makeSelectIngredientsByType(TYPE_INGREDIENTS.bun.name);
+export const selectSauces = makeSelectIngredientsByType(TYPE_INGREDIENTS.sauce.name);
+export const selectMains = makeSelectIngredientsByType(TYPE_INGREDIENTS.main.name);
 
-export const selectMains = createSelector(selectIngredients, (ingredients) =>
-  ingredients.filter((ingredient) => ingredient.type === TYPE_INGREDIENTS.main.name)
-);
+export const selectIngredientsByIds = (ids: Array<string> | undefined) => (state: RootState) => {
+  if (!ids) {
+    return [];
+  }
+
+  return state.ingredients.ingredients.filter((ingredient) => ids.includes(ingredient._id));
+};
+
+export const getIngredientsTotalSum = (ingredients: Array<TIngredient>) => {
+  return ingredients.reduce((acc, ingredient) => {
+    return acc + ingredient.price;
+  }, 0);
+};
+
+export const getIngredientsTotalSumByIds = (ids: Array<string> | undefined) => (state: RootState) => {
+  if (!ids) {
+    return 0;
+  }
+
+  let totalSum = 0;
+
+  ids.forEach((id) => {
+    const ingredient = selectIngredientById(id)(state);
+    if (ingredient) {
+      totalSum += ingredient.price;
+    }
+  });
+
+  return totalSum;
+};

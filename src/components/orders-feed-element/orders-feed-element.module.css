@@ -1,0 +1,70 @@
+.orderCard {
+  display: flex;
+  flex-direction: column;
+  background: #1C1C21;
+  border-radius: 40px;
+  padding: 24px;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.statusDone {
+  color: var(--colors-interface-success);
+}
+
+.ingredients {
+  display: flex;
+  list-style: none;
+  padding: 0;
+  margin: 0 0 0 16px;
+  align-items: center;
+}
+
+.ingredient {
+  width: 64px;
+  height: 64px;
+  padding: 4px;
+  object-fit: cover;
+  box-sizing: border-box;
+  border-radius: 100px;
+  border: solid 1px #801ab3;
+  position: relative;
+  display: flex;
+  background: #1C1C21;
+  margin-left: -16px;
+}
+
+.moreIngredients {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  padding: 4px;
+  object-fit: cover;
+  box-sizing: border-box;
+  border-radius: 100px;
+  border: solid 1px #801ab3;
+  position: relative;
+  margin-left: -64px;
+  z-index: 1;
+  background-color: rgba(28, 28, 33, 0.6);
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+}
+
+.price {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}

@@ -1,0 +1,71 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  max-width: 640px;
+}
+
+.number {
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.statusDone {
+  color: var(--colors-interface-success);
+}
+
+.list {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 40px;
+  max-height: 366px;
+  overflow: auto;
+}
+
+.item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.imageContainer {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.priceContainer {
+  display: flex;
+  margin-right: 24px;
+  gap: 8px;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.totalPrice {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.image {
+  width: 64px;
+  height: 64px;
+  padding: 4px;
+  object-fit: cover;
+  box-sizing: border-box;
+  border-radius: 100px;
+  border: solid 1px #801ab3;
+  display: flex;
+  background: #1C1C21;
+}

@@ -9,12 +9,13 @@ import { IPropsWithChildren } from '../../utils/types';
 
 interface IModalProps extends IPropsWithChildren {
   header?: string;
+  headerClassName?: string;
   onClose: () => void;
 }
 
 const modalRoot = document.getElementById('react-modals') as HTMLElement;
 
-const Modal: FC<IModalProps> = ({ children, header, onClose }) => {
+const Modal: FC<IModalProps> = ({ children, header, headerClassName, onClose }) => {
   React.useEffect(() => {
     const handleEscapeClose = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
@@ -32,7 +33,7 @@ const Modal: FC<IModalProps> = ({ children, header, onClose }) => {
       <ModalOverlay onClick={onClose} />
       <div className={`${styles.modal} pt-10 pl-10 pr-10`}>
         <div className={styles.modal__header}>
-          {header && <h2 className="text text_type_main-large">{header}</h2>}
+          {header && <h2 className={headerClassName ? headerClassName : 'text text_type_main-large'}>{header}</h2>}
           <button className={styles.button__close} onClick={onClose}>
             <CloseIcon />
           </button>

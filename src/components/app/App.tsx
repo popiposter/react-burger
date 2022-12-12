@@ -21,11 +21,10 @@ import IngredientDetailsModal from '../ingredient-details-modal';
 import DetailsContainer from '../../ui/details-container';
 import { fetchUser } from '../../services/authSlice';
 import { useAppDispatch } from '../../services/store';
-import { Location } from 'history';
-
-type TLocationState = {
-  background: Location;
-};
+import OrdersFeedPage from '../../pages/orders-feed';
+import Order from '../order';
+import OrderModal from '../order-modal/OrderModal';
+import { TLocationState } from '../../utils/types';
 
 function App() {
   const dispatch = useAppDispatch();
@@ -59,12 +58,28 @@ function App() {
             <ResetPasswordPage />
           </LoggedOutOnlyRoute>
 
+          <ProtectedRoute path="/profile/orders/:id" exact>
+            <DetailsContainer>
+              <Order />
+            </DetailsContainer>
+          </ProtectedRoute>
+
           <ProtectedRoute path="/profile">
             <ProfilePage />
           </ProtectedRoute>
 
           <Route path="/" exact>
             <HomePage />
+          </Route>
+
+          <Route path="/feed" exact>
+            <OrdersFeedPage />
+          </Route>
+
+          <Route path="/feed/:id" exact>
+            <DetailsContainer>
+              <Order />
+            </DetailsContainer>
           </Route>
 
           <Route path="/ingredients/:id" exact>
@@ -81,6 +96,9 @@ function App() {
         {background && (
           <Route path="/ingredients/:id" exact children={<IngredientDetailsModal onClose={handleModalClose} />} />
         )}
+
+        {background && <Route path="/feed/:id" exact children={<OrderModal onClose={handleModalClose} />} />}
+        {background && <Route path="/profile/orders/:id" exact children={<OrderModal onClose={handleModalClose} />} />}
       </>
     );
   };
