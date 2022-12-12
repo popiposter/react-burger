@@ -55,7 +55,6 @@ const AppHeader: FC = () => {
             <li className="pl-4 pr-4 pt-2 pb-2">
               <NavLink
                 to="/profile"
-                exact
                 className={`${styles.nav__link} text_color_inactive`}
                 activeClassName={styles.nav__link_active}
               >

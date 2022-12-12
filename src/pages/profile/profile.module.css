@@ -2,6 +2,7 @@
   display: flex;
   width: 100%;
   max-width: 1240px;
+  height: calc(100vh - 208px);
   margin: 120px auto 0;
   gap: 60px;
 }
@@ -45,4 +46,8 @@
 
 .linkActive {
   color: var(--text-primary-color);
+}
+
+.content {
+  width: 100%;
 }

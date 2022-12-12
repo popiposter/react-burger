@@ -9,16 +9,37 @@ import {
   isErrorWithMessage,
   TResetPassword,
   TIngredientsResponse,
+  TOrderResponse,
 } from '../utils/types';
 
 class StellarBurgersApi {
   _address: string;
+  _publicOrdersFeedAddress: string;
+  _privateOrdersFeedAddress: string;
 
-  constructor({ address }: { address: string }) {
+  constructor({
+    address,
+    publicOrdersFeedAddress,
+    privateOrdersFeedAddress,
+  }: {
+    address: string;
+    publicOrdersFeedAddress: string;
+    privateOrdersFeedAddress: string;
+  }) {
     this._address = address;
+    this._publicOrdersFeedAddress = publicOrdersFeedAddress;
+    this._privateOrdersFeedAddress = privateOrdersFeedAddress;
   }
 
-  _defaultFetchOptions(): RequestInit {
+  getPublicOrdersFeed() {
+    return this._publicOrdersFeedAddress;
+  }
+
+  getPrivateOrdersFeed() {
+    return this._privateOrdersFeedAddress + getCookie('accessToken');
+  }
+
+  _defaultFetchOptions(withAuth = false): RequestInit {
     return {
       method: 'GET',
       mode: 'cors',
@@ -26,6 +47,7 @@ class StellarBurgersApi {
       credentials: 'same-origin',
       headers: {
         'Content-Type': 'application/json',
+        Authorization: withAuth ? `Bearer ${getCookie('accessToken')}` : '',
       },
       redirect: 'follow',
       referrerPolicy: 'no-referrer',
@@ -123,14 +145,18 @@ class StellarBurgersApi {
     return fetch(`${this._address}/ingredients`, this._defaultFetchOptions()).then(this._checkResponse);
   }
 
-  order(ingredientsIds: Array<string>) {
+  postOrder(ingredientsIds: Array<string>) {
     return fetch(`${this._address}/orders`, {
-      ...this._defaultFetchOptions(),
+      ...this._defaultFetchOptions(true),
       method: 'POST',
       body: JSON.stringify({
         ingredients: ingredientsIds,
       }),
     }).then(this._checkResponse);
+  }
+
+  getOrder(orderId: string): Promise<TOrderResponse> {
+    return fetch(`${this._address}/orders/${orderId}`, this._defaultFetchOptions()).then(this._checkResponse);
   }
 
   getUser(): Promise<TUserResponse> {
@@ -192,6 +218,8 @@ class StellarBurgersApi {
 
 const stellarBurgersApi = new StellarBurgersApi({
   address: 'https://norma.nomoreparties.space/api',
+  publicOrdersFeedAddress: 'wss://norma.nomoreparties.space/orders/all',
+  privateOrdersFeedAddress: 'wss://norma.nomoreparties.space/orders?token=',
 });
 
 export default stellarBurgersApi;

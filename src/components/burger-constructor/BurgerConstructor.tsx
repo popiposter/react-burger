@@ -22,7 +22,7 @@ import { postOrder, resetOrder, selectOrderStatus } from '../../services/orderSl
 import { selectUser } from '../../services/authSlice';
 import { useHistory } from 'react-router-dom';
 import { useAppDispatch } from '../../services/store';
-import { isIngredient, TIngredient } from '../../utils/types';
+import { isIngredient, TConstructorIngredient, TIngredient } from '../../utils/types';
 import { DRAGGABLE_TYPE } from '../../utils/constants';
 
 function BurgerConstructor() {
@@ -59,7 +59,7 @@ function BurgerConstructor() {
     }
   };
 
-  const handleIngredientDelete = (ingredient: TIngredient) => {
+  const handleIngredientDelete = (ingredient: TConstructorIngredient) => {
     dispatch(removeIngredient(ingredient));
   };
 

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Location } from 'history';
 
 export interface IPropsWithChildren {
   children: React.ReactNode;
@@ -58,7 +59,6 @@ export function isIngredient(item: unknown): item is TIngredient {
 export type TRequestStatus = 'idle' | 'loading' | 'succeeded' | 'failed';
 
 export type TIngredient = {
-  id: string;
   _id: string;
   name: string;
   type: string;
@@ -73,6 +73,10 @@ export type TIngredient = {
   __v: number;
 };
 
+export type TConstructorIngredient = TIngredient & {
+  id: string;
+};
+
 export type TIngredientType = {
   name: string;
   title: string;
@@ -84,19 +88,32 @@ export type TIngredientsResponse = {
 };
 
 export type TOrder = {
+  _id: string;
   ingredients: string[];
-};
-
-export type TOrderResponse = {
   name: string;
-  order: TOrder;
+  number: number;
   status: string;
   updatedAt: string;
   createdAt: string;
-  number: number;
-  _id: string;
+};
+
+export type TOrderResponse = {
+  success: boolean;
+  orders: Array<TOrder>;
+  total: number;
+  totalToday: number;
 };
 
 export interface ICounters {
   [key: string]: number;
 }
+
+export enum WebsocketStatus {
+  CONNECTING = 'CONNECTING',
+  ONLINE = 'ONLINE',
+  OFFLINE = 'OFFLINE',
+}
+
+export type TLocationState = {
+  background: Location;
+};
