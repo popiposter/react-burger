@@ -1,4 +1,4 @@
-import { setCookie, getCookie, removeCookie } from 'typescript-cookie';
+import Cookies from 'js-cookie';
 import {
   TLogin,
   TUserData,
@@ -36,7 +36,7 @@ class StellarBurgersApi {
   }
 
   getPrivateOrdersFeed() {
-    return this._privateOrdersFeedAddress + getCookie('accessToken');
+    return this._privateOrdersFeedAddress + Cookies.get('accessToken');
   }
 
   _defaultFetchOptions(withAuth = false): RequestInit {
@@ -47,7 +47,7 @@ class StellarBurgersApi {
       credentials: 'same-origin',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: withAuth ? `Bearer ${getCookie('accessToken')}` : '',
+        Authorization: withAuth ? `Bearer ${Cookies.get('accessToken')}` : '',
       },
       redirect: 'follow',
       referrerPolicy: 'no-referrer',
@@ -68,13 +68,13 @@ class StellarBurgersApi {
   }
 
   saveTokens(refreshToken: string, accessToken: string) {
-    setCookie('accessToken', accessToken.split('Bearer ')[1], { expires: 1 });
+    Cookies.set('accessToken', accessToken.split('Bearer ')[1], { expires: 1 });
     localStorage.setItem('refreshToken', refreshToken);
   }
 
   deleteTokens() {
     localStorage.removeItem('refreshToken');
-    removeCookie('accessToken');
+    Cookies.remove('accessToken');
   }
 
   refreshToken(): Promise<TTokens> {
@@ -88,7 +88,7 @@ class StellarBurgersApi {
   }
 
   async _getAccessToken(): Promise<string | null> {
-    const accessToken = getCookie('accessToken');
+    const accessToken = Cookies.get('accessToken');
 
     if (!accessToken) {
       try {

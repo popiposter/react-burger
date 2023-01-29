@@ -29,12 +29,12 @@ const Modal: FC<IModalProps> = ({ children, header, headerClassName, onClose }) 
   }, [onClose]);
 
   return PortalReactDOM.createPortal(
-    <div className={styles.modal__container}>
+    <div className={styles.modal__container} data-test="modal">
       <ModalOverlay onClick={onClose} />
       <div className={`${styles.modal} pt-10 pl-10 pr-10`}>
         <div className={styles.modal__header}>
           {header && <h2 className={headerClassName ? headerClassName : 'text text_type_main-large'}>{header}</h2>}
-          <button className={styles.button__close} onClick={onClose}>
+          <button className={styles.button__close} onClick={onClose} data-test="modal-btn-close">
             <CloseIcon />
           </button>
         </div>

@@ -21,8 +21,8 @@ const BurgerIngredient: FC<IBurgerIngredientProps> = ({ item, count }) => {
   });
 
   return (
-    <li className={styles.item} ref={ref} style={{ opacity }}>
-      {count && <Counter count={count} size="default" />}
+    <li className={styles.item} ref={ref} style={{ opacity }} data-testid="burger-ingredient">
+      {count && <Counter count={count} size="default" data-test="counter" />}
 
       <img src={item.image} alt={item.name} />
 
