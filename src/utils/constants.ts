@@ -111,3 +111,13 @@ export const userMock: TUserInfo = {
   email: 'email@email.com',
   name: 'Пользователь',
 };
+
+export const INGREDIENTS_TEST_SELECTOR = '[data-test=ingredients]';
+export const MODAL_TEST_SELECTOR = '[data-test=modal]';
+export const PORTAL_TEST_SELECTOR = '[id=react-modals]';
+export const BUN_TEST_NAME = 'Булка тест';
+export const SAUCE_TEST_NAME = 'Соус тест';
+export const MAIN_TEST_NAME1 = 'Начинка тест 1';
+export const MAIN_TEST_NAME2 = 'Начинка тест 2';
+
+export const BASE_URL = 'https://norma.nomoreparties.space/api';

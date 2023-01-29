@@ -1,11 +1,22 @@
 /// <reference types="cypress" />
 
+import {
+  BASE_URL,
+  BUN_TEST_NAME,
+  INGREDIENTS_TEST_SELECTOR,
+  MAIN_TEST_NAME1,
+  MAIN_TEST_NAME2,
+  MODAL_TEST_SELECTOR,
+  PORTAL_TEST_SELECTOR,
+  SAUCE_TEST_NAME,
+} from '../../src/utils/constants';
+
 describe('Full constructor and order', () => {
   beforeEach(() => {
-    cy.intercept('GET', 'https://norma.nomoreparties.space/api/auth/user', {
+    cy.intercept('GET', `${BASE_URL}/auth/user`, {
       fixture: 'user',
     });
-    cy.intercept('POST', 'https://norma.nomoreparties.space/api/orders', {
+    cy.intercept('POST', `${BASE_URL}/orders`, {
       fixture: 'order',
     });
     cy.setLocalStorage('refreshToken', JSON.stringify('test-refreshToken'));
@@ -15,79 +26,79 @@ describe('Full constructor and order', () => {
   });
 
   it('should open app, load ingredients and have ingredients for testing', () => {
-    cy.get('[data-test=ingredients]').as('ingredients');
+    cy.get(INGREDIENTS_TEST_SELECTOR).as('ingredients');
 
-    cy.get('@ingredients').should('contain', 'Булка тест');
-    cy.get('@ingredients').should('contain', 'Начинка тест 1');
-    cy.get('@ingredients').should('contain', 'Начинка тест 2');
-    cy.get('@ingredients').should('contain', 'Соус тест');
+    cy.get('@ingredients').should('contain', BUN_TEST_NAME);
+    cy.get('@ingredients').should('contain', MAIN_TEST_NAME1);
+    cy.get('@ingredients').should('contain', MAIN_TEST_NAME2);
+    cy.get('@ingredients').should('contain', SAUCE_TEST_NAME);
   });
 
   it('should open modal with ingredient details', () => {
-    cy.get('[data-test=ingredients]').as('ingredients');
+    cy.get(INGREDIENTS_TEST_SELECTOR).as('ingredients');
 
-    cy.get('@ingredients').contains('Булка тест').click();
-    cy.get('[data-test=modal]').should('be.visible').should('contain', 'Булка тест');
+    cy.get('@ingredients').contains(BUN_TEST_NAME).click();
+    cy.get(MODAL_TEST_SELECTOR).should('be.visible').should('contain', BUN_TEST_NAME);
   });
 
   it('should close modal on close button click', () => {
-    cy.get('[data-test=ingredients]').as('ingredients');
-    cy.get('[id=react-modals]').as('portal');
+    cy.get(INGREDIENTS_TEST_SELECTOR).as('ingredients');
+    cy.get(PORTAL_TEST_SELECTOR).as('portal');
 
-    cy.get('@ingredients').contains('Булка тест').click();
-    cy.get('@portal').should('contain', 'Булка тест');
+    cy.get('@ingredients').contains(BUN_TEST_NAME).click();
+    cy.get('@portal').should('contain', BUN_TEST_NAME);
 
     cy.get('[data-test=modal-btn-close]').click();
-    cy.get('@portal').should('not.contain', 'Булка тест');
+    cy.get('@portal').should('not.contain', BUN_TEST_NAME);
   });
 
   it('should close modal on overlay click', () => {
-    cy.get('[data-test=ingredients]').as('ingredients');
-    cy.get('[id=react-modals]').as('portal');
+    cy.get(INGREDIENTS_TEST_SELECTOR).as('ingredients');
+    cy.get(PORTAL_TEST_SELECTOR).as('portal');
 
-    cy.get('@ingredients').contains('Булка тест').click();
-    cy.get('@portal').should('contain', 'Булка тест');
+    cy.get('@ingredients').contains(BUN_TEST_NAME).click();
+    cy.get('@portal').should('contain', BUN_TEST_NAME);
 
     cy.get('[data-test=modal-overlay]').click({ force: true });
 
-    cy.get('@portal').should('not.contain', 'Булка тест');
+    cy.get('@portal').should('not.contain', BUN_TEST_NAME);
   });
 
   it('should close modal on esc', () => {
-    cy.get('[data-test=ingredients]').as('ingredients');
-    cy.get('[id=react-modals]').as('portal');
+    cy.get(INGREDIENTS_TEST_SELECTOR).as('ingredients');
+    cy.get(PORTAL_TEST_SELECTOR).as('portal');
 
-    cy.get('@ingredients').contains('Булка тест').click();
-    cy.get('@portal').should('contain', 'Булка тест');
+    cy.get('@ingredients').contains(BUN_TEST_NAME).click();
+    cy.get('@portal').should('contain', BUN_TEST_NAME);
 
     cy.get('body').type('{esc}');
 
-    cy.get('@portal').should('not.contain', 'Булка тест');
+    cy.get('@portal').should('not.contain', BUN_TEST_NAME);
   });
 
   it('construct burger and post order', function () {
-    cy.get('[data-test=ingredients]').as('ingredients');
+    cy.get(INGREDIENTS_TEST_SELECTOR).as('ingredients');
     cy.get('[data-test=drop-target]').as('drop-target');
-    cy.get('[id=react-modals]').as('portal');
-    cy.get('@ingredients').contains('Булка тест').as('bun');
+    cy.get(PORTAL_TEST_SELECTOR).as('portal');
+    cy.get('@ingredients').contains(BUN_TEST_NAME).as('bun');
 
     cy.get('@bun').trigger('dragstart');
     cy.get('@drop-target').trigger('drop');
 
-    cy.get('@ingredients').contains('Начинка тест 1').trigger('dragstart');
+    cy.get('@ingredients').contains(MAIN_TEST_NAME1).trigger('dragstart');
     cy.get('@drop-target').trigger('drop');
 
-    cy.get('@ingredients').contains('Начинка тест 2').trigger('dragstart');
+    cy.get('@ingredients').contains(MAIN_TEST_NAME2).trigger('dragstart');
     cy.get('@drop-target').trigger('drop');
 
-    cy.get('@ingredients').contains('Соус тест').trigger('dragstart');
+    cy.get('@ingredients').contains(SAUCE_TEST_NAME).trigger('dragstart');
     cy.get('@drop-target').trigger('drop');
 
-    cy.get('@drop-target').should('contain', 'Булка тест (верх)');
-    cy.get('@drop-target').should('contain', 'Булка тест (низ)');
-    cy.get('@drop-target').should('contain', 'Начинка тест 1');
-    cy.get('@drop-target').should('contain', 'Начинка тест 2');
-    cy.get('@drop-target').should('contain', 'Соус тест');
+    cy.get('@drop-target').should('contain', `${BUN_TEST_NAME} (верх)`);
+    cy.get('@drop-target').should('contain', `${BUN_TEST_NAME} (низ)`);
+    cy.get('@drop-target').should('contain', MAIN_TEST_NAME1);
+    cy.get('@drop-target').should('contain', MAIN_TEST_NAME2);
+    cy.get('@drop-target').should('contain', SAUCE_TEST_NAME);
 
     cy.get('@bun').should('contain', '2');
 

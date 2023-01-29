@@ -11,6 +11,7 @@ import {
   TIngredientsResponse,
   TOrderResponse,
 } from '../utils/types';
+import { BASE_URL } from '../utils/constants';
 
 class StellarBurgersApi {
   _address: string;
@@ -217,7 +218,7 @@ class StellarBurgersApi {
 }
 
 const stellarBurgersApi = new StellarBurgersApi({
-  address: 'https://norma.nomoreparties.space/api',
+  address: BASE_URL,
   publicOrdersFeedAddress: 'wss://norma.nomoreparties.space/orders/all',
   privateOrdersFeedAddress: 'wss://norma.nomoreparties.space/orders?token=',
 });

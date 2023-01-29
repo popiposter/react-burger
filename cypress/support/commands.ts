@@ -37,9 +37,10 @@
 // }
 
 import 'cypress-localstorage-commands';
+import { BASE_URL } from '../../src/utils/constants';
 
 Cypress.Commands.add('seedAndVisit', () => {
-  cy.intercept('GET', 'https://norma.nomoreparties.space/api/ingredients', {
+  cy.intercept('GET', `${BASE_URL}/ingredients`, {
     fixture: 'ingredients',
   });
 
