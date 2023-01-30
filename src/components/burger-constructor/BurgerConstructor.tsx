@@ -84,6 +84,7 @@ function BurgerConstructor() {
       <div
         ref={dropTargetIngredients}
         className={isHover ? `${styles.dropTarget} ${styles.dropTargetHover}` : styles.dropTarget}
+        data-test="drop-target"
       >
         {bun && <BurgerConstructorElement item={bun} type="top" />}
 
@@ -111,6 +112,7 @@ function BurgerConstructor() {
           extraClass="ml-10"
           onClick={handleOrderClick}
           disabled={!bun || ingredients.length === 0}
+          data-test="order-button"
         >
           Оформить заказ
         </Button>

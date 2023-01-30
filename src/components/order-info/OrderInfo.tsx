@@ -48,7 +48,11 @@ const OrderInfo: FC = () => {
 
   return (
     <div className={styles.container}>
-      {!background && <p className={`text text_type_digits-default ${styles.number}`}>#{order.number}</p>}
+      {!background && (
+        <p className={`text text_type_digits-default ${styles.number}`} data-test="order-number">
+          #{order.number}
+        </p>
+      )}
       <p className="text text_type_main-medium mb-2">{order.name}</p>
       <p className={`text text_type_main-default mb-6 ${isDone ? styles.statusDone : ''}`}>{orderStatus}</p>
       <p className="text text_type_main-medium mb-2">Состав:</p>

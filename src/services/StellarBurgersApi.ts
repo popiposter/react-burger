@@ -1,4 +1,4 @@
-import { setCookie, getCookie, removeCookie } from 'typescript-cookie';
+import Cookies from 'js-cookie';
 import {
   TLogin,
   TUserData,
@@ -11,6 +11,7 @@ import {
   TIngredientsResponse,
   TOrderResponse,
 } from '../utils/types';
+import { BASE_URL } from '../utils/constants';
 
 class StellarBurgersApi {
   _address: string;
@@ -36,7 +37,7 @@ class StellarBurgersApi {
   }
 
   getPrivateOrdersFeed() {
-    return this._privateOrdersFeedAddress + getCookie('accessToken');
+    return this._privateOrdersFeedAddress + Cookies.get('accessToken');
   }
 
   _defaultFetchOptions(withAuth = false): RequestInit {
@@ -47,7 +48,7 @@ class StellarBurgersApi {
       credentials: 'same-origin',
       headers: {
         'Content-Type': 'application/json',
-        Authorization: withAuth ? `Bearer ${getCookie('accessToken')}` : '',
+        Authorization: withAuth ? `Bearer ${Cookies.get('accessToken')}` : '',
       },
       redirect: 'follow',
       referrerPolicy: 'no-referrer',
@@ -67,28 +68,32 @@ class StellarBurgersApi {
     return res.ok ? res.json() : res.json().then((err: TResponseError) => Promise.reject(err));
   }
 
+  _request(url: string, options: RequestInit) {
+    return fetch(url, options).then(this._checkResponse);
+  }
+
   saveTokens(refreshToken: string, accessToken: string) {
-    setCookie('accessToken', accessToken.split('Bearer ')[1], { expires: 1 });
+    Cookies.set('accessToken', accessToken.split('Bearer ')[1], { expires: 1 });
     localStorage.setItem('refreshToken', refreshToken);
   }
 
   deleteTokens() {
     localStorage.removeItem('refreshToken');
-    removeCookie('accessToken');
+    Cookies.remove('accessToken');
   }
 
   refreshToken(): Promise<TTokens> {
-    return fetch(`${this._address}/auth/token`, {
+    return this._request(`${this._address}/auth/token`, {
       ...this._defaultFetchOptions(),
       method: 'POST',
       body: JSON.stringify({
         token: localStorage.getItem('refreshToken'),
       }),
-    }).then(this._checkResponse);
+    });
   }
 
   async _getAccessToken(): Promise<string | null> {
-    const accessToken = getCookie('accessToken');
+    const accessToken = Cookies.get('accessToken');
 
     if (!accessToken) {
       try {
@@ -142,21 +147,21 @@ class StellarBurgersApi {
   }
 
   getIngredients(): Promise<TIngredientsResponse> {
-    return fetch(`${this._address}/ingredients`, this._defaultFetchOptions()).then(this._checkResponse);
+    return this._request(`${this._address}/ingredients`, this._defaultFetchOptions());
   }
 
   postOrder(ingredientsIds: Array<string>) {
-    return fetch(`${this._address}/orders`, {
+    return this._request(`${this._address}/orders`, {
       ...this._defaultFetchOptions(true),
       method: 'POST',
       body: JSON.stringify({
         ingredients: ingredientsIds,
       }),
-    }).then(this._checkResponse);
+    });
   }
 
   getOrder(orderId: string): Promise<TOrderResponse> {
-    return fetch(`${this._address}/orders/${orderId}`, this._defaultFetchOptions()).then(this._checkResponse);
+    return this._request(`${this._address}/orders/${orderId}`, this._defaultFetchOptions());
   }
 
   getUser(): Promise<TUserResponse> {
@@ -174,50 +179,50 @@ class StellarBurgersApi {
   }
 
   register(data: TUserData) {
-    return fetch(`${this._address}/auth/register`, {
+    return this._request(`${this._address}/auth/register`, {
       ...this._defaultFetchOptions(),
       method: 'POST',
       body: JSON.stringify(data),
-    }).then(this._checkResponse);
+    });
   }
 
   login(data: TLogin) {
-    return fetch(`${this._address}/auth/login`, {
+    return this._request(`${this._address}/auth/login`, {
       ...this._defaultFetchOptions(),
       method: 'POST',
       body: JSON.stringify(data),
-    }).then(this._checkResponse);
+    });
   }
 
   logout() {
-    return fetch(`${this._address}/auth/logout`, {
+    return this._request(`${this._address}/auth/logout`, {
       ...this._defaultFetchOptions(),
       method: 'POST',
       body: JSON.stringify({
         token: localStorage.getItem('refreshToken'),
       }),
-    }).then(this._checkResponse);
+    });
   }
 
   forgotPassword(data: TForgotPassword) {
-    return fetch(`${this._address}/password-reset/`, {
+    return this._request(`${this._address}/password-reset/`, {
       ...this._defaultFetchOptions(),
       method: 'POST',
       body: JSON.stringify(data),
-    }).then(this._checkResponse);
+    });
   }
 
   resetPassword(data: TResetPassword) {
-    return fetch(`${this._address}/password-reset/reset`, {
+    return this._request(`${this._address}/password-reset/reset`, {
       ...this._defaultFetchOptions(),
       method: 'POST',
       body: JSON.stringify(data),
-    }).then(this._checkResponse);
+    });
   }
 }
 
 const stellarBurgersApi = new StellarBurgersApi({
-  address: 'https://norma.nomoreparties.space/api',
+  address: BASE_URL,
   publicOrdersFeedAddress: 'wss://norma.nomoreparties.space/orders/all',
   privateOrdersFeedAddress: 'wss://norma.nomoreparties.space/orders?token=',
 });

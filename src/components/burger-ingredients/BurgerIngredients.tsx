@@ -65,7 +65,7 @@ function BurgerIngredients() {
           </Tab>
         </div>
 
-        <div className={styles.ingredients}>
+        <div className={styles.ingredients} data-test="ingredients">
           <InView as="div" onChange={(inView) => setIsBunsInView(inView)}>
             <BurgerIngredientsByType ingredients={buns} type={TYPE_INGREDIENTS.bun} />
           </InView>

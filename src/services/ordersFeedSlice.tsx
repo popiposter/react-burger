@@ -2,7 +2,7 @@ import { TOrder, TOrderResponse, WebsocketStatus } from '../utils/types';
 import { createAction, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from './store';
 
-interface IOrdersFeedState {
+export interface IOrdersFeedState {
   orders: Array<TOrder>;
   total: number;
   totalToday: number;
@@ -10,7 +10,7 @@ interface IOrdersFeedState {
   error: string | null;
 }
 
-const initialState: IOrdersFeedState = {
+export const initialState: IOrdersFeedState = {
   orders: [],
   total: 0,
   totalToday: 0,

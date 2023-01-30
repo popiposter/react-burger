@@ -3,14 +3,14 @@ import { TYPE_INGREDIENTS } from '../utils/constants';
 import { RootState } from './store';
 import { ICounters, TConstructorIngredient } from '../utils/types';
 
-interface IBurgerConstructorState {
+export interface IBurgerConstructorState {
   burger: {
     bun: TConstructorIngredient | null;
     ingredients: Array<TConstructorIngredient>;
   };
 }
 
-const initialState: IBurgerConstructorState = {
+export const initialState: IBurgerConstructorState = {
   burger: {
     bun: null,
     ingredients: [],

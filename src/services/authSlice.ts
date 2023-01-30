@@ -3,7 +3,7 @@ import StellarBurgersApi from './StellarBurgersApi';
 import { TForgotPassword, TLogin, TRequestStatus, TResetPassword, TUserData } from '../utils/types';
 import { RootState } from './store';
 
-type TAuthState = {
+export type TAuthState = {
   user: {
     name: string;
     email: string;
@@ -13,7 +13,7 @@ type TAuthState = {
   message: string | null;
 };
 
-const initialState: TAuthState = {
+export const initialState: TAuthState = {
   user: null,
   status: 'idle',
   error: undefined,
@@ -174,6 +174,8 @@ export const authSlice = createSlice({
 });
 
 export default authSlice.reducer;
+
+export const { clearError, clearMessage } = authSlice.actions;
 
 export const selectUser = (state: RootState) => state.auth.user;
 export const selectUserRequestStatus = (state: RootState) => state.auth.status;
