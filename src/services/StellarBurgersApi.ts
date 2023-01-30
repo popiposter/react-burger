@@ -68,6 +68,10 @@ class StellarBurgersApi {
     return res.ok ? res.json() : res.json().then((err: TResponseError) => Promise.reject(err));
   }
 
+  _request(url: string, options: RequestInit) {
+    return fetch(url, options).then(this._checkResponse);
+  }
+
   saveTokens(refreshToken: string, accessToken: string) {
     Cookies.set('accessToken', accessToken.split('Bearer ')[1], { expires: 1 });
     localStorage.setItem('refreshToken', refreshToken);
@@ -79,13 +83,13 @@ class StellarBurgersApi {
   }
 
   refreshToken(): Promise<TTokens> {
-    return fetch(`${this._address}/auth/token`, {
+    return this._request(`${this._address}/auth/token`, {
       ...this._defaultFetchOptions(),
       method: 'POST',
       body: JSON.stringify({
         token: localStorage.getItem('refreshToken'),
       }),
-    }).then(this._checkResponse);
+    });
   }
 
   async _getAccessToken(): Promise<string | null> {
@@ -143,21 +147,21 @@ class StellarBurgersApi {
   }
 
   getIngredients(): Promise<TIngredientsResponse> {
-    return fetch(`${this._address}/ingredients`, this._defaultFetchOptions()).then(this._checkResponse);
+    return this._request(`${this._address}/ingredients`, this._defaultFetchOptions());
   }
 
   postOrder(ingredientsIds: Array<string>) {
-    return fetch(`${this._address}/orders`, {
+    return this._request(`${this._address}/orders`, {
       ...this._defaultFetchOptions(true),
       method: 'POST',
       body: JSON.stringify({
         ingredients: ingredientsIds,
       }),
-    }).then(this._checkResponse);
+    });
   }
 
   getOrder(orderId: string): Promise<TOrderResponse> {
-    return fetch(`${this._address}/orders/${orderId}`, this._defaultFetchOptions()).then(this._checkResponse);
+    return this._request(`${this._address}/orders/${orderId}`, this._defaultFetchOptions());
   }
 
   getUser(): Promise<TUserResponse> {
@@ -175,45 +179,45 @@ class StellarBurgersApi {
   }
 
   register(data: TUserData) {
-    return fetch(`${this._address}/auth/register`, {
+    return this._request(`${this._address}/auth/register`, {
       ...this._defaultFetchOptions(),
       method: 'POST',
       body: JSON.stringify(data),
-    }).then(this._checkResponse);
+    });
   }
 
   login(data: TLogin) {
-    return fetch(`${this._address}/auth/login`, {
+    return this._request(`${this._address}/auth/login`, {
       ...this._defaultFetchOptions(),
       method: 'POST',
       body: JSON.stringify(data),
-    }).then(this._checkResponse);
+    });
   }
 
   logout() {
-    return fetch(`${this._address}/auth/logout`, {
+    return this._request(`${this._address}/auth/logout`, {
       ...this._defaultFetchOptions(),
       method: 'POST',
       body: JSON.stringify({
         token: localStorage.getItem('refreshToken'),
       }),
-    }).then(this._checkResponse);
+    });
   }
 
   forgotPassword(data: TForgotPassword) {
-    return fetch(`${this._address}/password-reset/`, {
+    return this._request(`${this._address}/password-reset/`, {
       ...this._defaultFetchOptions(),
       method: 'POST',
       body: JSON.stringify(data),
-    }).then(this._checkResponse);
+    });
   }
 
   resetPassword(data: TResetPassword) {
-    return fetch(`${this._address}/password-reset/reset`, {
+    return this._request(`${this._address}/password-reset/reset`, {
       ...this._defaultFetchOptions(),
       method: 'POST',
       body: JSON.stringify(data),
-    }).then(this._checkResponse);
+    });
   }
 }
 
